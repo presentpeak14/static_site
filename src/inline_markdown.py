@@ -98,3 +98,12 @@ def extract_markdown_links(text):
     pattern = r"(?<!!)\[([^\[\]]*)\]\(([^\(\)]*)\)"
     matches = re.findall(pattern, text)
     return matches
+
+def extract_markdown_title(markdown):
+    split_markdowns = markdown.split("\n")
+    for split_markdown in split_markdowns:
+        if split_markdown.startswith("# "):
+            clean_markdown = split_markdown[2:]
+            return (clean_markdown.strip())
+    
+    raise Exception("There is no header")

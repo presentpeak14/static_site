@@ -17,6 +17,7 @@ def copy_files_recursive(source_dir_path, dest_dir_path):
         else:
             copy_files_recursive(from_path, dest_path)
 
+
 def generate_page(from_path, template_path, dest_path):
     print(f"Generating page from {from_path} to {dest_path} using {template_path}")
     from_file = open(from_path)
@@ -41,3 +42,18 @@ def generate_page(from_path, template_path, dest_path):
     dest_file = open(dest_path, "w")
     dest_file.write(final_temp_contents)
     dest_file.close()
+
+def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
+    if not os.path.exists(dest_dir_path):
+        os.mkdir(dest_dir_path)
+
+    for filename in os.listdir(dir_path_content):
+        from_path = os.path.join(dir_path_content, filename)
+        dest_path = os.path.join(dest_dir_path, filename)
+        print(f" * {from_path} -> {dest_path}")
+        if os.path.isfile(from_path):
+            if from_path.endswith(".md"):
+                new_dest_path = dest_path.replace(".md", ".html")
+                generate_page(from_path,template_path, new_dest_path)
+        else:
+            generate_pages_recursive(from_path, template_path, dest_path)
